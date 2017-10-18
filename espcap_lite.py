@@ -61,7 +61,6 @@ def dump_packets_to_dict(capture):
     packets_list = []
     i = 1
     for packet in capture.sniff_continuously(packet_count=50):
-        for packet in capture:
             if packet.transport_layer == 'UDP':
                 ip = None
                 ip_version = get_ip_version(packet)
@@ -84,7 +83,7 @@ def dump_packets_to_dict(capture):
 
 
 @click.command()
-@click.option('--live', default=False, help='Network interface for live capture using json output (default=False)')
+@click.option('--live', is_flag=False, help='Network interface for live capture using json output (default=False)')
 @click.option('--nic', default=None, help='Network interface for live capture (default=None, if file specified)')
 @click.option('--file', default=None, help='PCAP file for file capture (default=None, if nic specified)')
 @click.option('--list', is_flag=True, help='List the network interfaces')
@@ -99,7 +98,7 @@ def main(nic, file, list, live):
     capture = None
     if nic == None:
         capture = pyshark.FileCapture(file)
-    elif live == True:
+    elif live == 'True':
         capture = pyshark.LiveCapture(nic)
         dump_packets_to_dict(capture)
     elif file == None:
