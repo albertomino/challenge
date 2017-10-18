@@ -68,7 +68,7 @@ def dump_packets_to_dict(capture):
                     ip = packet.ip
                 elif ip_version == 6:
                     ip = packet.ipv6
-                packets_list.append({'Packet' : i, 'Packet length' : packet.length, 'sniff_time' : str(packet.sniff_time), 'sniff_timestamp' : packet.sniff_timestamp, 'Source IP' : ip.src, 'Source Port' : packet.tcp.srcport, 'Destination IP' : ip.dst, 'Destination port' : packet.tcp.dstport})
+                packets_list.append({'Packet' : i, 'Packet length' : packet.length, 'sniff_time' : str(packet.sniff_time), 'sniff_timestamp' : packet.sniff_timestamp, 'Source IP' : ip.src, 'Source Port' : packet.udp.srcport, 'Destination IP' : ip.dst, 'Destination port' : packet.udp.dstport})
             if packet.transport_layer == 'TCP':
                 ip = None
                 ip_version = get_ip_version(packet)
@@ -99,10 +99,10 @@ def main(nic, file, list, live):
     if nic == None:
         capture = pyshark.FileCapture(file)
     elif live == 'True':
-        capture = pyshark.LiveCapture(nic)
+        capture = pyshark.LiveCapture(nic, bpf_filter='not tcp port 22 and not tcp port 2220')
         dump_packets_to_dict(capture)
     elif file == None:
-        capture = pyshark.LiveCapture(nic)
+        capture = pyshark.LiveCapture(nic, bpf_filter='not tcp port 22 and not tcp port 2220')
         dump_packets(capture)
 
 
