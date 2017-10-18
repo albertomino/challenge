@@ -74,9 +74,9 @@ def dump_packets_to_dict(capture):
                 ip = None
                 ip_version = get_ip_version(packet)
                 if ip_version == 4:
-                ip = packet.ip
+                    ip = packet.ip
                 elif ip_version == 6:
-                ip = packet.ipv6
+                    ip = packet.ipv6
                 packets_list.append({'Packet' : i, 'Packet length' : packet.length, 'sniff_time' : str(packet.sniff_time), 'sniff_timestamp' : packet.sniff_timestamp, 'Source IP' : ip.src, 'Source Port' : packet.tcp.srcport, 'Destination IP' : ip.dst, 'Destination port' : packet.tcp.dstport})
             i += 1
     packets_list = json.dumps(packets_list, indent=4, sort_keys=True)
