@@ -103,7 +103,6 @@ def main(nic, file, list, live):
         dump_packets_to_dict(capture)
     elif file == None:
         capture = pyshark.LiveCapture(nic)
-        #dump_packets_to_dict(capture)
         dump_packets(capture)
 
 
