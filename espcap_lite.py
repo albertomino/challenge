@@ -87,7 +87,7 @@ def dump_packets_to_dict(capture):
 @click.option('--nic', default=None, help='Network interface for live capture (default=None, if file specified)')
 @click.option('--file', default=None, help='PCAP file for file capture (default=None, if nic specified)')
 @click.option('--list', is_flag=True, help='List the network interfaces')
-def main(nic, file, list):
+def main(nic, file, list, live):
     if list:
         list_interfaces()
         sys.exit(0)
@@ -98,6 +98,9 @@ def main(nic, file, list):
     capture = None
     if nic == None:
         capture = pyshark.FileCapture(file)
+    elif live == True:
+        capture = pyshark.LiveCapture(nic)
+        dump_packets_to_dict(capture)
     elif file == None:
         capture = pyshark.LiveCapture(nic)
         #dump_packets_to_dict(capture)
