@@ -84,6 +84,7 @@ def dump_packets_to_dict(capture):
 
 
 @click.command()
+@click.option('--live', default=False, help='Network interface for live capture using json output (default=False)')
 @click.option('--nic', default=None, help='Network interface for live capture (default=None, if file specified)')
 @click.option('--file', default=None, help='PCAP file for file capture (default=None, if nic specified)')
 @click.option('--list', is_flag=True, help='List the network interfaces')
