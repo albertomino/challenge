@@ -38,6 +38,7 @@ def dump_packets(capture):
             print 'Source port      -', packet.udp.srcport
             print 'Destination IP   -', ip.dst
             print 'Destination port -', packet.udp.dstport
+            print '\n'
         if packet.transport_layer == 'TCP':
             ip = None
             ip_version = get_ip_version(packet)
@@ -53,21 +54,31 @@ def dump_packets(capture):
             print 'Source port      -', packet.tcp.srcport
             print 'Destination IP   -', ip.dst
             print 'Destination port -', packet.tcp.dstport
+            print '\n'
         i += 1
 
 def dump_packets_to_dict(capture):
     packets_list = []
     i = 1
     for packet in capture.sniff_continuously(packet_count=50):
-        if packet.transport_layer == 'TCP':
-            ip = None
-            ip_version = get_ip_version(packet)
-            if ip_version == 4:
+        for packet in capture:
+            if packet.transport_layer == 'UDP':
+                ip = None
+                ip_version = get_ip_version(packet)
+                if ip_version == 4:
+                    ip = packet.ip
+                elif ip_version == 6:
+                    ip = packet.ipv6
+                packets_list.append({'Packet' : i, 'Packet length' : packet.length, 'sniff_time' : str(packet.sniff_time), 'sniff_timestamp' : packet.sniff_timestamp, 'Source IP' : ip.src, 'Source Port' : packet.tcp.srcport, 'Destination IP' : ip.dst, 'Destination port' : packet.tcp.dstport})
+            if packet.transport_layer == 'TCP':
+                ip = None
+                ip_version = get_ip_version(packet)
+                if ip_version == 4:
                 ip = packet.ip
-            elif ip_version == 6:
+                elif ip_version == 6:
                 ip = packet.ipv6
-            packets_list.append({'Packet' : i, 'Packet length' : packet.length, 'sniff_time' : str(packet.sniff_time), 'sniff_timestamp' : packet.sniff_timestamp, 'Source IP' : ip.src, 'Source Port' : packet.tcp.srcport, 'Destination IP' : ip.dst, 'Destination port' : packet.tcp.dstport})
-        i += 1
+                packets_list.append({'Packet' : i, 'Packet length' : packet.length, 'sniff_time' : str(packet.sniff_time), 'sniff_timestamp' : packet.sniff_timestamp, 'Source IP' : ip.src, 'Source Port' : packet.tcp.srcport, 'Destination IP' : ip.dst, 'Destination port' : packet.tcp.dstport})
+            i += 1
     packets_list = json.dumps(packets_list, indent=4, sort_keys=True)
     print packets_list
 
