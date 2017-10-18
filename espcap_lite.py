@@ -23,6 +23,21 @@ def get_ip_version(packet):
 def dump_packets(capture):
     i = 1
     for packet in capture:
+        if packet.transport_layer == 'UDP':
+            ip = None
+            ip_version = get_ip_version(packet)
+            if ip_version == 4:
+                ip = packet.ip
+            elif ip_version == 6:
+                ip = packet.ipv6
+            print 'Packet %d' % i
+            print 'Packet length    -', packet.length
+            print 'sniff_time       -', packet.sniff_time
+            print 'sniff_timestamp  -', packet.sniff_timestamp
+            print 'Source IP        -', ip.src
+            print 'Source port      -', packet.udp.srcport
+            print 'Destination IP   -', ip.dst
+            print 'Destination port -', packet.udp.dstport
         if packet.transport_layer == 'TCP':
             ip = None
             ip_version = get_ip_version(packet)
@@ -38,7 +53,6 @@ def dump_packets(capture):
             print 'Source port      -', packet.tcp.srcport
             print 'Destination IP   -', ip.dst
             print 'Destination port -', packet.tcp.dstport
-            print
         i += 1
 
 def dump_packets_to_dict(capture):
@@ -75,7 +89,8 @@ def main(nic, file, list):
         capture = pyshark.FileCapture(file)
     elif file == None:
         capture = pyshark.LiveCapture(nic)
-        dump_packets_to_dict(capture)
+        #dump_packets_to_dict(capture)
+        dump_packets(capture)
 
 
 
