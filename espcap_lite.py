@@ -4,6 +4,7 @@ import sys
 import click
 import pyshark
 import json
+import time
 
 def list_interfaces():
     proc = os.popen("tshark -D")  # Note tshark must be in $PATH
@@ -19,6 +20,7 @@ def get_ip_version(packet):
             return 4
         elif layer._layer_name == 'ipv6':
             return 6
+
 
 def dump_packets(capture):
     i = 1
@@ -58,6 +60,8 @@ def dump_packets(capture):
         i += 1
 
 def dump_packets_to_dict(capture):
+    timestr = time.strftime("%H%M%S-%d%m%Y")
+    capture_file = open(timestr, 'w')
     packets_list = []
     i = 1
     for packet in capture.sniff_continuously(packet_count=50):
@@ -79,7 +83,9 @@ def dump_packets_to_dict(capture):
                 packets_list.append({'Packet' : i, 'Packet length' : packet.length, 'sniff_time' : str(packet.sniff_time), 'sniff_timestamp' : packet.sniff_timestamp, 'Source IP' : ip.src, 'Source Port' : packet.tcp.srcport, 'Destination IP' : ip.dst, 'Destination port' : packet.tcp.dstport})
             i += 1
     packets_list = json.dumps(packets_list, indent=4, sort_keys=True)
-    print packets_list
+#    print packets_list
+    capture_file.write(packets_list)
+    capture_file.close()
 
 
 @click.command()
@@ -102,7 +108,7 @@ def main(nic, file, list, live):
         capture = pyshark.LiveCapture(nic, bpf_filter='not tcp port 22 and not tcp port 2220')
         dump_packets_to_dict(capture)
     elif file == None:
-        capture = pyshark.LiveCapture(nic, bpf_filter='not tcp port 22 and not tcp port 2220')
+        capture = pyshark.LiveCapture(nic, output_file='captura.pcap', bpf_filter='not tcp port 22 and not tcp port 2220')
         dump_packets(capture)
 
 
