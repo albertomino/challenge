@@ -48,15 +48,20 @@ def dump_packets(capture):
                 ip = packet.ip
             elif ip_version == 6:
                 ip = packet.ipv6
-            print 'Packet %d' % i
-            print 'Packet length    -', packet.length
-            print 'sniff_time       -', packet.sniff_time
-            print 'sniff_timestamp  -', packet.sniff_timestamp
-            print 'Source IP        -', ip.src
-            print 'Source port      -', packet.tcp.srcport
-            print 'Destination IP   -', ip.dst
-            print 'Destination port -', packet.tcp.dstport
-            print '\n'
+            try:
+            	print 'Packet %d' % i
+            	print 'Packet length    -', packet.length
+            	print 'sniff_time       -', packet.sniff_time
+            	print 'sniff_timestamp  -', packet.sniff_timestamp
+            	print 'Source IP        -', ip.src
+            	print 'Source port      -', packet.tcp.srcport
+            	print 'Destination IP   -', ip.dst
+            	print 'Destination port -', packet.tcp.dstport
+            	print 'http host        -', packet.http.host
+            	print '\n'
+            except Exception as e:
+                print e
+                pass
         i += 1
 
 def dump_packets_to_dict(capture):
