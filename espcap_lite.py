@@ -49,16 +49,16 @@ def dump_packets(capture):
             elif ip_version == 6:
                 ip = packet.ipv6
             try:
-            	print 'Packet %d' % i
-            	print 'Packet length    -', packet.length
-            	print 'sniff_time       -', packet.sniff_time
-            	print 'sniff_timestamp  -', packet.sniff_timestamp
-            	print 'Source IP        -', ip.src
-            	print 'Source port      -', packet.tcp.srcport
-            	print 'Destination IP   -', ip.dst
-            	print 'Destination port -', packet.tcp.dstport
-            	print 'http host        -', packet.http.host
-            	print '\n'
+                print 'Packet %d' % i
+                print 'Packet length    -', packet.length
+                print 'sniff_time       -', packet.sniff_time
+                print 'sniff_timestamp  -', packet.sniff_timestamp
+                print 'Source IP        -', ip.src
+                print 'Source port      -', packet.tcp.srcport
+                print 'Destination IP   -', ip.dst
+                print 'Destination port -', packet.tcp.dstport
+                print 'http host        -', packet.http.host
+                print '\n'
             except Exception as e:
                 print e
                 pass
@@ -69,7 +69,7 @@ def dump_packets_to_dict(capture):
     capture_file = open(timestr, 'w')
     packets_list = []
     i = 1
-    for packet in capture.sniff_continuously(packet_count=50):
+    for packet in capture.sniff_continuously(packet_count=100):
             if packet.transport_layer == 'UDP':
                 ip = None
                 ip_version = get_ip_version(packet)
