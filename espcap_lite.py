@@ -69,7 +69,7 @@ def dump_packets_to_dict(capture):
     capture_file = open(timestr, 'w')
     packets_list = []
     i = 1
-    for packet in capture.sniff_continuously(packet_count=100):
+    for packet in capture.sniff_continuously(packet_count=1000):
             if packet.transport_layer == 'UDP':
                 ip = None
                 ip_version = get_ip_version(packet)
@@ -88,7 +88,7 @@ def dump_packets_to_dict(capture):
                 try:
                     packets_list.append({'Packet' : i, 'Packet length' : packet.length, 'sniff_time' : str(packet.sniff_time), 'sniff_timestamp' : packet.sniff_timestamp, 'Source IP' : ip.src, 'Source Port' : packet.tcp.srcport, 'Destination IP' : ip.dst, 'Destination port' : packet.tcp.dstport, 'HTTP Host' : packet.http.host})
                 except Exception as e:
-                    packets_list.append({'Packet' : i, 'Packet length' : packet.length, 'sniff_time' : str(packet.sniff_time), 'sniff_timestamp' : packet.sniff_timestamp, 'Source IP' : ip.src, 'Source Port' : packet.tcp.srcport, 'Destination IP' : ip.dst, 'Destination port' : packet.tcp.dstport})
+                    pass
     packets_list = json.dumps(packets_list, indent=4, sort_keys=True)
 #    print packets_list
     capture_file.write(packets_list)
