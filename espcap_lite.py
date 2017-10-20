@@ -77,7 +77,7 @@ def dump_packets_to_dict(capture):
                     ip = packet.ip
                 elif ip_version == 6:
                     ip = packet.ipv6
-                packets_list.append({'Packet' : i, 'Packet length' : packet.length, 'sniff_time' : str(packet.sniff_time), 'sniff_timestamp' : packet.sniff_timestamp, 'Source IP' : ip.src, 'Source Port' : packet.udp.srcport, 'Destination IP' : ip.dst, 'Destination port' : packet.udp.dstport})
+                packets_list.append({'Packet' : i, 'Packet_length' : packet.length, 'sniff_time' : str(packet.sniff_time), 'sniff_timestamp' : packet.sniff_timestamp, 'Source_IP' : ip.src, 'Source_Port' : packet.udp.srcport, 'Destination_IP' : ip.dst, 'Destination_port' : packet.udp.dstport})
             if packet.transport_layer == 'TCP':
                 ip = None
                 ip_version = get_ip_version(packet)
@@ -86,7 +86,7 @@ def dump_packets_to_dict(capture):
                 elif ip_version == 6:
                     ip = packet.ipv6
                 try:
-                    packets_list.append({'Packet' : i, 'Packet length' : packet.length, 'sniff_time' : str(packet.sniff_time), 'sniff_timestamp' : packet.sniff_timestamp, 'Source IP' : ip.src, 'Source Port' : packet.tcp.srcport, 'Destination IP' : ip.dst, 'Destination port' : packet.tcp.dstport, 'HTTP Host' : packet.http.host})
+                    packets_list.append({'Packet' : i, 'Packet_length' : packet.length, 'sniff_time' : str(packet.sniff_time), 'sniff_timestamp' : packet.sniff_timestamp, 'Source_IP' : ip.src, 'Source_Port' : packet.tcp.srcport, 'Destination_IP' : ip.dst, 'Destination_port' : packet.tcp.dstport, 'HTTP_Host' : packet.http.host})
                 except Exception as e:
                     pass
     packets_list = json.dumps(packets_list, indent=4, sort_keys=True)
