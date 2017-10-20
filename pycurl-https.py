@@ -12,7 +12,7 @@ headers = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
 
 for url in urls:
     try:
-        r = requests.post(url, headers=headers, timeout=1)
+        r = requests.post(url, headers=headers, timeout=0.5)
         print r
     except Exception as e:
         print e# coding=utf-8
