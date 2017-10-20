@@ -11,5 +11,10 @@ urls=['https://wordpress.org/', 'https://twitter.com/share', 'https://plus.googl
 headers = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
 
 for url in urls:
- r = requests.post(url, headers=headers)
- print r
+    try:
+        r = requests.post(url, headers=headers, timeout=1)
+        print r
+    except Exception as e:
+        print e# coding=utf-8
+        pass
+print "Done!"
