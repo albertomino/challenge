@@ -6,7 +6,7 @@ n = sys.argv[1]
 
 ## The urls used below depends on a dns or some "name to ip" solution like edit /etc/hosts file on linux.
 
-urls=['https://www.google.com', 'https://www.mercadolibre.com.ar', 'http://www.santanderrio.com', 'http://www.debian.org']
+urls=['https://www.google.com', 'http://www.mercadolibre.com.ar', 'http://www.santanderrio.com', 'http://www.debian.org']
 
 # create the request object using funtions to determine how many packets or curls are desired using:
 # req = urllib2.Request(url)
