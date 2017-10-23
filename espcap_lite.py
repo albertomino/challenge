@@ -69,7 +69,7 @@ def dump_packets_to_dict(capture):
     capture_file = open(timestr, 'w')
     packets_list = []
     i = 1
-    for packet in capture.sniff_continuously(packet_count=1000):
+    for packet in capture.sniff_continuously(packet_count=10000):
             if packet.transport_layer == 'UDP':
                 ip = None
                 ip_version = get_ip_version(packet)
