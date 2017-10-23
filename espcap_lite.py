@@ -112,7 +112,7 @@ def main(nic, file, list, live):
     if nic == None:
         capture = pyshark.FileCapture(file)
     elif live == 'True':
-        capture = pyshark.LiveCapture(nic, bpf_filter='not tcp port 22 and not tcp port 2220')
+        capture = pyshark.LiveCapture(nic, bpf_filter='not tcp port 22 and not tcp port 2220 and not tcp port 2240')
         dump_packets_to_dict(capture)
     elif file == None:
         capture = pyshark.LiveCapture(nic, output_file='captura.pcap', bpf_filter='not tcp port 22 and not tcp port 2220')
