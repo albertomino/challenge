@@ -91,8 +91,8 @@ def dump_packets_to_dict(capture):
             except Exception as e:
                 pass
         i += 1
+        counter += 1
     packets_list = json.dumps(packets_list, indent=4, sort_keys=True)
-#    print packets_list
     capture_file.write(packets_list)
     capture_file.close()
     print '%s were captured!' % counter
