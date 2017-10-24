@@ -99,11 +99,11 @@ def dump_packets_to_dict(capture):
 
 
 @click.command()
-@click.option('--live', is_flag=False, help='Network interface for live capture using json output (default=False)')
+@click.option('--dump', is_flag=False, help='Network interface for live capture using json output to a file (default=False)')
 @click.option('--nic', default=None, help='Network interface for live capture (default=None, if file specified)')
 @click.option('--file', default=None, help='PCAP file for file capture (default=None, if nic specified)')
 @click.option('--list', is_flag=True, help='List the network interfaces')
-def main(nic, file, list, live):
+def main(nic, file, list, dump):
     if list:
         list_interfaces()
         sys.exit(0)
@@ -114,7 +114,7 @@ def main(nic, file, list, live):
     capture = None
     if nic == None:
         capture = pyshark.FileCapture(file)
-    elif live == 'True':
+    elif dump == 'True':
         capture = pyshark.LiveCapture(nic, bpf_filter='not tcp port 22 and not tcp port 2220 and not tcp port 2240')
         dump_packets_to_dict(capture)
     elif file == None:
