@@ -89,7 +89,7 @@ def dump_packets_to_dict(capture):
             try:
                 packets_list.append({'Packet' : i, 'Packet_length' : packet.length, 'sniff_time' : str(packet.sniff_time), 'sniff_timestamp' : packet.sniff_timestamp, 'Source_IP' : ip.src, 'Source_Port' : packet.tcp.srcport, 'Destination_IP' : ip.dst, 'Destination_port' : packet.tcp.dstport, 'HTTP_Host' : packet.http.host})
             except Exception as e:
-                pass
+                packets_list.append({'Packet' : i, 'Packet_length' : packet.length, 'sniff_time' : str(packet.sniff_time), 'sniff_timestamp' : packet.sniff_timestamp, 'Source_IP' : ip.src, 'Source_Port' : packet.tcp.srcport, 'Destination_IP' : ip.dst, 'Destination_port' : packet.tcp.dstport})
         i += 1
         counter += 1
     packets_list = json.dumps(packets_list, indent=4, sort_keys=True)
@@ -115,7 +115,7 @@ def main(nic, file, list, dump):
     if nic == None:
         capture = pyshark.FileCapture(file)
     elif dump == 'True':
-        capture = pyshark.LiveCapture(nic, bpf_filter='not tcp port 22 and not tcp port 2220 and not tcp port 2240')
+        capture = pyshark.LiveCapture(nic, bpf_filter='not tcp port 22 and not tcp port 2220 and not tcp port 2240 and not host 192.168.1.10')
         dump_packets_to_dict(capture)
     elif file == None:
         capture = pyshark.LiveCapture(nic, output_file='captura.pcap', bpf_filter='not tcp port 22 and not tcp port 2220 and not tcp port 2240')
