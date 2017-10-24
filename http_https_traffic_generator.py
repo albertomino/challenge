@@ -1,8 +1,9 @@
 import urllib2
 import sys
 import time
+import itertools
 
-n = sys.argv[1]
+n = int(sys.argv[1])
 
 ## The urls used below depends on a dns or some "name to ip" solution like edit /etc/hosts file on linux.
 
@@ -20,13 +21,20 @@ def pcurl(n, urls):
     print res.read()
     time.sleep(0.5)
  else:
-  while n > 0:
-   for url in urls:
-    res = urllib2.urlopen(url)
-    print 'curling %s' % url
-    print res.read()
-    time.sleep(0.5)
-    n = int(n)-1
+   for url in itertools.cycle(urls):
+    try:
+     res = urllib2.urlopen(url)
+     print 'curling %s' % url
+     print res.read()
+     time.sleep(0.5)
+     n = int(n)-1
+     if n == 0:
+      break
+    except Exception as e:
+        pass
+   print 'Done!'
+
+
 
 # make the request and print the results
 
