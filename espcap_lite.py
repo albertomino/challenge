@@ -65,35 +65,37 @@ def dump_packets(capture):
         i += 1
 
 def dump_packets_to_dict(capture):
+    counter = 0
     timestr = time.strftime("%H%M%S-%d%m%Y")
     capture_file = open(timestr, 'w')
     packets_list = []
     i = 1
-    for packet in capture.sniff_continuously(packet_count=10000):
-            if packet.transport_layer == 'UDP':
-                ip = None
-                ip_version = get_ip_version(packet)
-                if ip_version == 4:
-                    ip = packet.ip
-                elif ip_version == 6:
-                    ip = packet.ipv6
-                packets_list.append({'Packet' : i, 'Packet_length' : packet.length, 'sniff_time' : str(packet.sniff_time), 'sniff_timestamp' : packet.sniff_timestamp, 'Source_IP' : ip.src, 'Source_Port' : packet.udp.srcport, 'Destination_IP' : ip.dst, 'Destination_port' : packet.udp.dstport})
-            if packet.transport_layer == 'TCP':
-                ip = None
-                ip_version = get_ip_version(packet)
-                if ip_version == 4:
-                    ip = packet.ip
-                elif ip_version == 6:
-                    ip = packet.ipv6
-                try:
-                    packets_list.append({'Packet' : i, 'Packet_length' : packet.length, 'sniff_time' : str(packet.sniff_time), 'sniff_timestamp' : packet.sniff_timestamp, 'Source_IP' : ip.src, 'Source_Port' : packet.tcp.srcport, 'Destination_IP' : ip.dst, 'Destination_port' : packet.tcp.dstport, 'HTTP_Host' : packet.http.host})
-                except Exception as e:
-                    pass
-            i += 1
+    for packet in capture.sniff_continuously(packet_count=2000):
+        if packet.transport_layer == 'UDP':
+            ip = None
+            ip_version = get_ip_version(packet)
+            if ip_version == 4:
+                ip = packet.ip
+            elif ip_version == 6:
+                ip = packet.ipv6
+            packets_list.append({'Packet' : i, 'Packet_length' : packet.length, 'sniff_time' : str(packet.sniff_time), 'sniff_timestamp' : packet.sniff_timestamp, 'Source_IP' : ip.src, 'Source_Port' : packet.udp.srcport, 'Destination_IP' : ip.dst, 'Destination_port' : packet.udp.dstport})
+        if packet.transport_layer == 'TCP':
+            ip = None
+            ip_version = get_ip_version(packet)
+            if ip_version == 4:
+                ip = packet.ip
+            elif ip_version == 6:
+                ip = packet.ipv6
+            try:
+                packets_list.append({'Packet' : i, 'Packet_length' : packet.length, 'sniff_time' : str(packet.sniff_time), 'sniff_timestamp' : packet.sniff_timestamp, 'Source_IP' : ip.src, 'Source_Port' : packet.tcp.srcport, 'Destination_IP' : ip.dst, 'Destination_port' : packet.tcp.dstport, 'HTTP_Host' : packet.http.host})
+            except Exception as e:
+                pass
+        i += 1
     packets_list = json.dumps(packets_list, indent=4, sort_keys=True)
 #    print packets_list
     capture_file.write(packets_list)
     capture_file.close()
+    print '%s were captured!' % counter
 
 
 @click.command()
