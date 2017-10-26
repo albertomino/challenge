@@ -1,0 +1,98 @@
+<html>
+<head>
+    <title>Sample</title>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
+
+<canvas id="myChart" width="1200" height="500"></canvas>
+
+<script>
+
+
+
+$.getJSON("top_sites.json", function(json) {
+  //console.log(`json --> ${JSON.stringify(json, null, 2)}`);
+  var labels = [];
+  var data = [];
+  $.each(json, function(i, v) {
+    //console.log(i, v);
+    labels.push(i)
+    data.push(v)
+    //console.log(`labels --> ${JSON.stringify(labels, null, 2)}`);
+    //console.log(`data --> ${JSON.stringify(data, null, 2)}`);
+    });
+
+
+  var colors = [
+    "#C0C0C0",
+    "#808080",
+    "#FF0000",
+    "#800000",
+    "#FFFF00",
+    "#808000",
+    "#00FF00",
+    "#008000",
+    "#00FFFF",
+    "#008080",
+    "#0000FF",
+    "#000080",
+    "#FF00FF",
+    "#F08080",
+    "#FA8072",
+    "#AA7267",
+    "#800080"
+  ];
+
+  var bg = [];
+
+  for (var i in labels) {
+    var n = _.random(0, colors.length-1)
+    //console.log(`i=${i} n=${n} length=${colors.length-1}`)
+    bg.push(colors[n]);
+  }
+
+  //console.log(bg)
+
+var ctx = document.getElementById("myChart");
+var myChart = new Chart(ctx, {
+    type: 'horizontalBar',
+    data: {
+        //labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        labels: labels,
+        datasets: [{
+            label: 'Top Sites Visited',
+            //data: [12, 19, 3, 5, 2, 3],
+            data: data,
+            backgroundColor: bg,
+/*
+            backgroundColor: [
+                '#333333',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+*/
+            borderColor: bg,
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+
+});
+
+</script>
+</head>
+</html>
