@@ -6,4 +6,5 @@ RUN pip install lxml trollius logbook py pyshark click
 WORKDIR /root
 RUN git clone https://github.com/albertomino/challenge.git
 WORKDIR /root/challenge
-CMD ["python","capturing_v1.py","--nic","wlp2s0","--dump","True"]
+CMD ["mkdir","~/data_traffic"]
+CMD ["python","capturing_v1.py","--nic","wlp2s0","--dump"]
