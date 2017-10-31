@@ -27,7 +27,7 @@ def get_ip_version(packet):
 def port_to_name(allowed_protocols):
     known_protocols = {'80' : 'HTTP', '443' : 'HTTPS', '123' : 'NTP', '53' : 'DNS', '22' : 'SSH'}
     converted_dict = {}
-    path = os.path.expanduser('~/traffic_by_protocol.json')
+    path = os.path.expanduser('~/data_traffic/traffic_by_protocol.json')
     for i in allowed_protocols.keys():
         if i in known_protocols.keys():
             converted_dict[known_protocols[i]] = allowed_protocols[i]
@@ -41,7 +41,7 @@ def port_to_name(allowed_protocols):
 
 def traffic_data_generator(captured):
     allowed_protocols = {'80' : 0, '443': 0, '123' : 0, '53' : 0, '22' : 0}
-    path = os.path.expanduser('~/')
+    path = os.path.expanduser('~/data_traffic/')
     clients_vs_sites = open(path+'clients_vs_sites.json', 'w')
     top_sites = open(path+'top_sites.json', 'w')
     links = []
