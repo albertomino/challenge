@@ -68,6 +68,10 @@ Para realizar mas facil la captura y si se cuenta con docker instalado se puede 
 
       docker build -t python:2.7-challenge .
 
+Previamente es necesario editar la ultima linea del Dockerfile remplazando el valor de la interface de red donde se realizara la captura por la interface correcta.
+
+      Ej.: CMD ["python","capturing_v1.py","--nic","eth0","--dump"]
+
 Luego ejecutar:
 
       docker run -v /home/user/challenge:/root/challenge --net "host" python:2.7-challenge
