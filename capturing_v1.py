@@ -33,15 +33,15 @@ def port_to_name(allowed_protocols):
         else:
             pass
     print
-    traffic_by_protocol = open('~/data_traffic/traffic_by_protocol.json', 'w')
+    traffic_by_protocol = open('traffic_by_protocol.json', 'w')
     traffic_by_protocol.write(json.dumps(converted_dict))
     traffic_by_protocol.close()
 
 
 def traffic_data_generator(captured):
     allowed_protocols = {'80' : 0, '443': 0, '123' : 0, '53' : 0, '22' : 0}
-    clients_vs_sites = open('~/data_traffic/clients_vs_sites.json', 'w')
-    traffic_by_protocol = open('~/data_traffic/traffic_by_protocol.json', 'w')
+    clients_vs_sites = open('clients_vs_sites.json', 'w')
+    traffic_by_protocol = open('traffic_by_protocol.json', 'w')
     top_sites = open('top_sites.json', 'w')
     links = []
     sites = {}
